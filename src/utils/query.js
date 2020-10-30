@@ -252,16 +252,16 @@ export function populateAndDispatch(firebase, dispatch, config) {
       forEach(results, (result, path) => {
         dispatch({
           type: actionTypes.MERGE,
-          path,
+          path: storeAs || path,
           data: result
         })
       })
-      dispatch({
-        type: actionTypes.SET,
-        path: storeAs || path,
-        data,
-        ordered: orderedFromSnapshot(snapshot)
-      })
+      // dispatch({
+      //   type: actionTypes.SET,
+      //   path: storeAs || path,
+      //   data,
+      //   ordered: orderedFromSnapshot(snapshot)
+      // })
       return results
     })
     .catch((err) => {
