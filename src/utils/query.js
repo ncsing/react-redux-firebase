@@ -249,18 +249,19 @@ export function populateAndDispatch(firebase, dispatch, config) {
       // populatedDataToJS after all data is in redux (Issue #121)
       // TODO: Allow config to toggle Combining into one SET action
       // TODO: Set ordered for populate queries
-      // forEach(results, (result, path) => {
-      //   dispatch({
-      //     type: actionTypes.MERGE,
-      //     path: storeAs || path,
-      //     data: result
-      //   })
-      // })
-      const returnResult = results.reduce((accumulator, currentValue) => ({...accumulator, ...currentValue}), {});
+      let returnData = {}
+      forEach(results, (result, path) => {
+        dispatch({
+          type: actionTypes.MERGE,
+          path: storeAs || path,
+          data: result
+        })
+        returnData = { ...returnData, ...result }
+      })
       dispatch({
         type: actionTypes.SET,
         path: storeAs || path,
-        data: returnResult,
+        data: returnData,
         ordered: orderedFromSnapshot(snapshot)
       })
       return results
